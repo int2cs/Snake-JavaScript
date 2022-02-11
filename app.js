@@ -7,17 +7,27 @@ const ctx = canvas.getContext("2d");
 let direction = "right";
 let apple = [5, 5];
 let score = 0;
+let text;
+let textWidth;
+
 const speed = 800;
 const gridElem = 40; //40 => taille de chaque case de notre grille soit 20 cases * 20 case = 800(largeur et hauteur de notre grille)
 const snake = [
   [9, 9],
   [8, 9],
   [7, 9],
-]; //initial position [[x, y], [x, y], [x, y]]
+]; // Position initiale [[x, y], [x, y], [x, y]]
 
 window.addEventListener("keydown", keyboardEvent);
 
-requestAnimationFrame(play);
+ctx.fillStyle = "black";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+text = "Appuyez sur ESPACE pour lancer une partie";
+ctx.textAlign = "center";
+ctx.fillStyle = "white";
+ctx.font = "30px Verdana";
+ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 
 /*
   FUNCTIONS
@@ -25,16 +35,6 @@ requestAnimationFrame(play);
 function drawMap() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 800, 800);
-}
-function drawScore() {
-  const text = `Score : ${score}`;
-  ctx.fillStyle = "white";
-  ctx.font = "30px Verdana";
-  ctx.textAlign = "right";
-  ctx.textBaseline = "top";
-  const textWidth = ctx.measureText(text);
-
-  ctx.fillText(text, canvas.width - textWidth.width, 30);
 }
 function drawSnake() {
   ctx.fillStyle = "yellow";
@@ -53,6 +53,16 @@ function generateApple() {
     if (bodyElem[0] === x && bodyElem[1] === y) return generateApple();
   }
   apple = [x, y];
+}
+function drawScore() {
+  text = `Score : ${score}`;
+  ctx.fillStyle = "white";
+  ctx.font = "30px Verdana";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "top";
+  textWidth = ctx.measureText(text);
+
+  ctx.fillText(text, canvas.width - textWidth.width, 30);
 }
 
 function isGameOver() {
@@ -116,6 +126,9 @@ function updateSnakePosition() {
 
 function keyboardEvent(e) {
   switch (e.code) {
+    case "Space":
+      requestAnimationFrame(play);
+      break;
     case "ArrowUp":
       direction = "top";
       break;
