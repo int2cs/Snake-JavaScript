@@ -202,3 +202,7 @@ function keyboardEvent(e) {
       break;
   }
 }
+
+/*
+  Par Gabriel Gobin pour la 3WAcademy
+*/
